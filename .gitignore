@@ -1,0 +1,6 @@
+cache/
+corpora/
+results/
+.venv/
+__pycache__/
+*.egg-info/

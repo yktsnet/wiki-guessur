@@ -1,0 +1,16 @@
+# 素材は一度固定したら変えない。頑健さ評価の変動要因はシードのみ。
+[dump]
+date = "20260712"
+base_url = "https://dumps.wikimedia.org/other/cirrus_search_index"
+index = "jawiki_content"
+shards = 14
+
+[generate]
+num_queries = 5000
+min_incoming_links = 5
+max_dummies = 9        # 候補数k = ダミー数+1 で 2〜10
+max_doc_chars = 4000
+min_doc_chars = 200
+
+[eval]
+train_ratio = 0.5
