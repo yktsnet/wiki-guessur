@@ -12,4 +12,13 @@ def get(name: str):
     if name == "gbdt":
         from .gbdt import Gbdt
         return Gbdt()
+    if name == "random":
+        from .trivial import Random
+        return Random()
+    if name == "mention-min":
+        from .trivial import MentionMin
+        return MentionMin()
+    if name == "mention-max":
+        from .trivial import MentionMax
+        return MentionMax()
     raise ValueError(f"unknown method: {name}")

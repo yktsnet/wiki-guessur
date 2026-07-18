@@ -1,0 +1,21 @@
+{
+  "seed": 2,
+  "queries": 4692,
+  "k_mean": 5.58,
+  "k_dist": {
+    "2": 583,
+    "3": 592,
+    "4": 606,
+    "5": 622,
+    "6": 544,
+    "7": 534,
+    "8": 483,
+    "9": 424,
+    "10": 304
+  },
+  "random_mrr": 0.47,
+  "answer_mention_rate": 0.6575,
+  "answer_mentions_avg": 4.14,
+  "dummy_mention_rate": 0.3448,
+  "dummy_mentions_avg": 0.53
+}

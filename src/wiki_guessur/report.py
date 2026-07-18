@@ -12,9 +12,14 @@ def run() -> None:
         print("no results yet; run `wiki-guessur eval` first")
         return
     latest: dict[tuple, float] = {}  # 同じ (method, seed) は最後の実行を採用
+    sweep: dict[tuple, dict[int, float]] = defaultdict(dict)  # (method, k_cap) -> seed -> mrr
     for line in open(path, encoding="utf-8"):
         r = json.loads(line)
-        latest[(r["method"], r["seed"])] = r["mrr"]
+        if "k_cap" in r:
+            sweep[(r["method"], r["k_cap"])][r["seed"]] = r["mrr"]
+        else:
+            # LLM層つきは推定MRR（mrr_est）を採用する
+            latest[(r["method"], r["seed"])] = r.get("mrr_est", r["mrr"])
 
     by_method: dict[str, dict[int, float]] = defaultdict(dict)
     for (m, s), v in latest.items():
@@ -32,7 +37,24 @@ def run() -> None:
         cells = " | ".join(f"{v:.4f}" if v is not None else "-" for v in vals)
         lines.append(f"| {m} | {cells} | {mean:.4f} | {stdev:.4f} |")
     table = "\n".join(lines)
+    body = f"# MRR by method x seed\n\n{table}\n"
+
+    if sweep:
+        caps = sorted({c for _, c in sweep})
+        methods_ = sorted({m for m, _ in sweep})
+        s_lines = ["| method | " + " | ".join(f"k={c}" for c in caps) + " |",
+                   "|" + "---|" * (len(caps) + 1)]
+        for m in methods_:
+            cells = []
+            for c in caps:
+                vals = list(sweep[(m, c)].values())
+                cells.append(f"{statistics.mean(vals):.4f}" if vals else "-")
+            s_lines.append(f"| {m} | " + " | ".join(cells) + " |")
+        sweep_table = "\n".join(s_lines)
+        body += f"\n# MRR by candidate cap (mean over seeds)\n\n{sweep_table}\n"
+        table += "\n\n" + sweep_table
+
     out = config.RESULTS_DIR / "report.md"
-    out.write_text(f"# MRR by method x seed\n\n{table}\n", encoding="utf-8")
+    out.write_text(body, encoding="utf-8")
     print(table)
     print(f"\nwritten: {out}")

@@ -14,3 +14,10 @@ min_doc_chars = 200
 
 [eval]
 train_ratio = 0.5
+
+[llm]
+model = "gemini-3.1-flash-lite"
+gap_threshold = 0.1    # 上位2候補の正規化スコア差がこれ未満なら僅差ケース
+sample_rate = 0.1
+text_chars = 1200
+rpm = 12               # 無料枠15RPMに対する安全側ペース
