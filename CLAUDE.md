@@ -3,10 +3,6 @@
 @context/conventions.md
 @context/structure.md
 
-## フェーズ
-
-Issueドリブン期。相談者（開放チャット）は Issue 設計のみ、実装は `issue()` で起動する実行者が行う。
-
 ## コマンド
 
 ```console
