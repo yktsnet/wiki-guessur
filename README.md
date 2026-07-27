@@ -1,3 +1,5 @@
+[🇯🇵 日本語](README.md) | [🇬🇧 English](README.en.md)
+
 # wiki-guessur
 
 冒頭の定義文を消されたWikipedia記事がどの記事名に対応するかを、係数固定の数式・再学習するGBDT・LLM再判定の組み合わせで解き、コーパスを引き直しても当て続けられるかを実測するベンチマーク。
